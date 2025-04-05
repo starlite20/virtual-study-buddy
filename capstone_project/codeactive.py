@@ -1,31 +1,3 @@
-import os
-import json
-
-from dotenv import load_dotenv
-
-from pydantic import BaseModel
-#BaseModel helps create the basic JSON Structure layout that we want the GenAI model to respond with.
-
-import gradio as gr
-import typing_extensions as typing
-
-#Importing Essential Packages for Generative AI
-from google import genai
-from google.genai import types
-
-#Importing Essential Packages for Website
-from IPython.display import HTML, Markdown, display
-
-#genai.__version__
-print("Google GenAI version:", genai.__version__)
-
-load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-client = genai.Client(api_key=GOOGLE_API_KEY)
-genai_model = "gemini-2.0-flash"
-
-
-
 # Define the expected JSON structure
 class StudyData(BaseModel):
     title: str
@@ -124,4 +96,4 @@ iface = gr.Interface(
     description="Enter a topic you'd like to learn about."
 )
 
-iface.launch(share=False)
+iface.launch(share=True)
