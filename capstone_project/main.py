@@ -1,3 +1,7 @@
+import json
+import os
+from dotenv import load_dotenv
+
 #Importing Essential Packages for Generative AI
 from google import genai
 from google.genai import types
@@ -39,9 +43,7 @@ from typing import List, Dict, Any
 from pydantic import BaseModel, Field
 #BaseModel helps create the basic JSON Structure layout that we want the GenAI model to respond with.
 
-import json
-import os
-from dotenv import load_dotenv
+
 
 
 
