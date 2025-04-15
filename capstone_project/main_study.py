@@ -28,8 +28,11 @@ if not hasattr(genai.models.Models.generate_content, '__wrapped__'):
 
 
 
+active_topic = ""
+sub_topics = []
+
 '''
-chat = client.chats.create(model=genai_model, history=[])
+internal_chat = client.chats.create(model=genai_model, history=[])
 response = chat.send_message('Hello! My name is Zlork.')
 print(response.text)
 
@@ -62,6 +65,13 @@ chat = client.chats.create(
 response = chat.send_message(system_message)
 
 
+#Simplify and cleaning the user prompt topic
+def simplify_requested_topic(user_prompt):
+    internal_chat = client.chats.create(model=genai_model, history=[])
+    internal_response = internal_chat.send_message('The user wants to learn about ' + user_prompt + '. Simplify the user prompt and return the only topic the user wants to learn in a maximum of 5 words only. Keep it simple.' )
+    refined_prompt = 'Teach me about ' + internal_response.text + '. Give me a short summary and a list of 3-5 subtopics.' 
+    #print('user wants to learn : ' + internal_response.text)
+    return internal_response.text
 
 
 def query_with_grounding(user_prompt):
@@ -75,7 +85,10 @@ def query_with_grounding(user_prompt):
 
 user_prompt = input(WELCOME_MSG + " -> ")
 while user_prompt != "exit":
-    response_chat = query_with_grounding(user_prompt)
+
+    refined_prompt = simplify_requested_topic(user_prompt)
+
+    response_chat = query_with_grounding(refined_prompt)
     print (response_chat.content.parts[0].text)
     
     user_prompt = input(" -> ")
